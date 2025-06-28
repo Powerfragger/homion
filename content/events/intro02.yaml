@@ -1,0 +1,32 @@
+basic:
+  id: intro02
+  type: event
+  biome: Vermass
+  location: "Brutstätten"
+  title: "Schwarmbewusstsein"
+  text: "intro02.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  folgen:
+    label: "Ich folge dem Willen des Schwarms"
+    effect:
+      counter:
+        systemtreu: +1
+    next:
+      type: event
+      target: intro03
+  abwägen:
+    label: "Ich schau mal, wo das hinführt"
+    next:
+      type: event
+      target: intro03
+  fragen:
+    label: "Warum sollte ich da lang?"
+    effect:
+      counter:
+        abweichler: +1
+    next:
+      type: event
+      target: intro03

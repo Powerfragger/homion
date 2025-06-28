@@ -1,0 +1,35 @@
+basic:
+  id: intro00
+  type: event
+  biome: Vermass
+  location: "Brutkammer"
+  title: "Ganz am Anfang"
+  text: "intro00.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  spielen:
+    label: "Ich fange den Sporling und sende einen spielerischen Impuls"
+    effect:
+      flag:
+        sozial: true
+    next:
+      type: event
+      target: intro01a
+  kämpfen:
+    label: "Ich stürze mich auf ihn und will ihm wehtun"
+    effect:
+      flag:
+        aggressiv: true
+    next:
+      type: event
+      target: intro01b
+  zurückziehen:
+    label: "Ich ziehe mich ängstlich zurück"
+    effect:
+      flag:
+        ängstlich: true
+    next:
+      type: event
+      target: intro01c

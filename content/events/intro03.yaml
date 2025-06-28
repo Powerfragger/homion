@@ -1,0 +1,38 @@
+basic:
+  id: intro03
+  type: event
+  biome: vermass
+  location: "Vesculor-Strang bei den Brutstätten"
+  title: "Steig ein."
+  text: "intro03.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  angst:
+    label: "Ich zögere unsicher"
+    condition:
+      flag:
+        ängstlich: true
+    effect:
+      counter:
+        abweichler: +1
+    next:
+      type: event
+      target: intro04
+  folgen:
+    label: "Ich folge dem Willen des Schwarms"
+    condition:
+      flag:
+        ängstlich: false
+    effect:
+      counter:
+        systemtreu: +1
+    next:
+      type: event
+      target: intro04
+  beobachten:
+    label: "Ich beobachte zunächst einige ein- und aussteigende Myrriden. Dann steige ich ein"
+    next:
+      type: event
+      target: intro04

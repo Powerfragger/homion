@@ -1,0 +1,16 @@
+basic:
+  id: intro01b
+  type: event
+  biome: Vermass
+  location: "Brutkammer"
+  title: "Kämpfende Sporlinge"
+  text: "intro01b.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  weiter:
+    label: "Weiter..."
+    next:
+      type: event
+      target: intro02
