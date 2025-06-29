@@ -1,10 +1,10 @@
 basic:
-  id: introHook01
+  id: introHook2
   type: event
   biome: Vermass
   location: "Die Grube"
   title: "Hungerstrafe"
-  text: "introHook01.hbs"
+  text: "introHook2.hbs"
 condition: null
 effect: null
 hook:
@@ -18,17 +18,17 @@ options:
     next:
       if:
         condition:
-          visited: ["intro01"]
+          visited: ["intro04"]
         destination:
           type: event
-          target: intro01
+          target: intro05
       elif:
         condition:
-          visited: ["intro01"]
+          visited: ["intro04"]
         destination:
           type: event
-          target: intro00
+          target: intro05
       else:
         destination:
           type: event
-          target: intro00
+          target: intro04

@@ -48,9 +48,12 @@ def extract_targets(option_block):
                     targets.append(tgt)
     return targets
 
+# erkennt intro00, intro01, usw. – alles andere wird als "special" eingeordnet
 def extract_layer(id_str):
     match = re.match(r"intro(\d{2})", id_str)
-    return int(match.group(1)) if match else 0
+    if match:
+        return int(match.group(1))
+    return "special"
 
 def build_canvas_data(event_data):
     nodes = []
@@ -64,13 +67,12 @@ def build_canvas_data(event_data):
         layer = extract_layer(event_id)
         layers[layer].append(event_id)
 
-    for y_index, layer in enumerate(sorted(layers.keys())):
+    for y_index, layer in enumerate(sorted(layers.keys(), key=lambda x: (999 if x == "special" else int(x)))):
         events_in_layer = sorted(layers[layer])
         for x_index, event_id in enumerate(events_in_layer):
             content = event_data[event_id]["data"]
             title = content.get("basic", {}).get("title", "")
 
-            # echte Dateipfade
             yaml_abs = (EVENT_DIR / f"{event_id}.yaml").resolve().as_uri()
             hbs_abs = (HBS_DIR / f"{event_id}.hbs").resolve().as_uri()
 
@@ -81,11 +83,18 @@ def build_canvas_data(event_data):
                 f"[{event_id}.hbs]({hbs_abs})"
             )
 
+            x = x_index * spacing_x
+            y = y_index * spacing_y
+
+            # Spezialevents weiter rechts platzieren
+            if layer == "special":
+                x += 500 + spacing_x * 4
+
             nodes.append({
                 "id": event_id,
                 "type": "text",
-                "x": x_index * spacing_x,
-                "y": y_index * spacing_y,
+                "x": x,
+                "y": y,
                 "width": 260,
                 "height": 140,
                 "text": text
@@ -104,7 +113,6 @@ def build_canvas_data(event_data):
                         "fromNode": event_id,
                         "toNode": target_id,
                         "type": "arrow"
-                        # kein label
                     })
 
     return {"nodes": nodes, "edges": edges, "version": "0.1.0"}

@@ -1,0 +1,32 @@
+basic:
+  id: intro03a
+  type: event
+  biome: Vermass
+  location: "Vesculor-Strang bei den Brutstätten"
+  title: "Sozialer Druck"
+  text: "intro03a.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  schreien:
+    label: "'LASST MICH IN RUHE!'"
+    effect:
+      counter:
+        abweichler: +2
+    next:
+      type: event
+      target: introHook1
+  fügen:
+    label: "Ich beuge mich dem Druck und steige ein"
+    next:
+      type: event
+      target: intro04
+  fliehen:
+    label: "Ich versuche an der Masse vorbei zu kommen und zu fliehen"
+    effect:
+      counter:
+        abweichler: +2
+      next:
+        type: event
+        target: introHook1

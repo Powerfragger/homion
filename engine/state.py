@@ -99,6 +99,10 @@ class GameState:
             for cid in condition["chosen"]:
                 if cid not in self.chosen_options:
                     return False
+        if "mindset" in condition:
+          for k, v in condition["mindset"].items():
+            if self.mindsets.get(k, False) != v:
+              return False
 
         return True
 

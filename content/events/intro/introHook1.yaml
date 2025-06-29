@@ -1,0 +1,38 @@
+basic:
+  id: introHook1
+  type: event
+  biome: Vermass
+  location: "Venen von Vermass"
+  title: "Antikörper-Verhalten"
+  text: "introHook1.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  ruhig:
+    label: "Ich begreife meine Situation und spare meine Kräfte"
+    effect:
+      imprint:
+        geduldig: +1
+    next:
+      type: event
+      target: introHook2
+  toben:
+    label: "Ich schreie rum und schmeiße mich mit meinem Kern gegen die Wände"
+    condition:
+      mindset:
+        aggressiv: true
+    effect:
+      counter:
+        abweichler: +1
+    next:
+      type: event
+      target: introHook3
+  panik:
+    label: "Ich gerate in Panik. Meine Fortsätze zittern und ich suche panisch die Wände ab nach...irgendwas"
+    condition:
+      mindset:
+        ängstlich: true
+    next:
+      type: event
+      target: introHook2

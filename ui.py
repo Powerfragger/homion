@@ -164,6 +164,21 @@ with col1:
                 st.rerun()
             else:
                 st.warning("Diese Option ist aktuell nicht verfügbar.")
+st.markdown("""
+<style>
+span[title] {
+    border-bottom: 1px dashed #666;
+    color: #bbb;
+    cursor: help;
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+
+span[title]:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+</style>
+""", unsafe_allow_html=True)
 
 with col2:
     with st.expander("🛠 Entwickler-Status", expanded=False):

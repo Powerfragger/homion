@@ -16,7 +16,7 @@ options:
         rücksichtslos: true
     next:
       type: event
-      target: intro04b.hbs
+      target: intro03a.hbs
   egal:
     label: "Die Dinge sind, wie sie sind.."
     effect:
@@ -24,7 +24,7 @@ options:
         gleichgültig: +1
     next:
       type: event
-      target: intro04b.hbs
+      target: intro03a.hbs
   nein:
     label: "Nein. Mit unserer Macht über diese Lebensformen haben wir auch Verantwortung"
     effect:
