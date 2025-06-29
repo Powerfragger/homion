@@ -1,0 +1,34 @@
+{
+	"nodes":[
+		{"id":"intro00","type":"text","x":0,"y":0,"width":260,"height":140,"text":"**intro00**\n*Ganz am Anfang*\n\n[intro00.yaml](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/intro00.yaml)\n[intro00.hbs](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/hbs/intro00.hbs)"},
+		{"id":"intro01a","type":"text","x":0,"y":260,"width":260,"height":140,"text":"**intro01a**\n*Spielende Sporlinge*\n\n[intro01a.yaml](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/intro01a.yaml)\n[intro01a.hbs](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/hbs/intro01a.hbs)"},
+		{"id":"intro01b","type":"text","x":340,"y":260,"width":260,"height":140,"text":"**intro01b**\n*Kämpfende Sporlinge*\n\n[intro01b.yaml](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/intro01b.yaml)\n[intro01b.hbs](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/hbs/intro01b.hbs)"},
+		{"id":"intro01c","type":"text","x":680,"y":260,"width":260,"height":140,"text":"**intro01c**\n*Ängstlicher Sporling*\n\n[intro01c.yaml](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/intro01c.yaml)\n[intro01c.hbs](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/hbs/intro01c.hbs)"},
+		{"id":"intro02","type":"text","x":0,"y":520,"width":260,"height":140,"text":"**intro02**\n*Schwarmbewusstsein*\n\n[intro02.yaml](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/intro02.yaml)\n[intro02.hbs](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/hbs/intro02.hbs)"},
+		{"id":"intro03","type":"text","x":0,"y":780,"width":260,"height":140,"text":"**intro03**\n*Steig ein.*\n\n[intro03.yaml](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/intro03.yaml)\n[intro03.hbs](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/hbs/intro03.hbs)"},
+		{"id":"intro04","type":"text","x":0,"y":1040,"width":260,"height":140,"text":"**intro04**\n*Kontraktion*\n\n[intro04.yaml](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/intro04.yaml)\n[intro04.hbs](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/hbs/intro04.hbs)"},
+		{"id":"intro04a","type":"text","x":340,"y":1040,"width":260,"height":140,"text":"**intro04a**\n*So viele Körper*\n\n[intro04a.yaml](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/intro04a.yaml)\n[intro04a.hbs](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/hbs/intro04a.hbs)"},
+		{"id":"intro05","type":"text","x":0,"y":1300,"width":260,"height":140,"text":"**intro05**\n*Der erste Befehl*\n\n[intro05.yaml](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/intro05.yaml)\n[intro05.hbs](file:///C:/Users/power/PycharmProjects/HOMION/content/events/intro/hbs/intro05.hbs)"}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"intro00","toNode":"intro01a","type":"arrow"},
+		{"id":"e2","fromNode":"intro00","toNode":"intro01b","type":"arrow"},
+		{"id":"e3","fromNode":"intro00","toNode":"intro01c","type":"arrow"},
+		{"id":"e4","fromNode":"intro01a","toNode":"intro02","type":"arrow"},
+		{"id":"e5","fromNode":"intro01b","toNode":"intro02","type":"arrow"},
+		{"id":"e6","fromNode":"intro01c","toNode":"intro02","type":"arrow"},
+		{"id":"e7","fromNode":"intro02","toNode":"intro03","type":"arrow"},
+		{"id":"e8","fromNode":"intro02","toNode":"intro03","type":"arrow"},
+		{"id":"e9","fromNode":"intro02","toNode":"intro03","type":"arrow"},
+		{"id":"e10","fromNode":"intro03","toNode":"intro04","type":"arrow"},
+		{"id":"e11","fromNode":"intro03","toNode":"intro04","type":"arrow"},
+		{"id":"e12","fromNode":"intro03","toNode":"intro04","type":"arrow"},
+		{"id":"e13","fromNode":"intro04","toNode":"intro05","type":"arrow"},
+		{"id":"e14","fromNode":"intro04","toNode":"intro05","type":"arrow"}
+	],
+	"version":"0.1.0",
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

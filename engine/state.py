@@ -12,25 +12,25 @@ class GameState:
         self.chosen_options = {}
 
         # Dynamische Speicherung von Imprints und Mindsets
-        self.imprint = {}  # Speicherung aller Imprints (Werte werden dynamisch zugewiesen)
+        self.imprints = {}  # Speicherung aller Imprints (Werte werden dynamisch zugewiesen)
         self.mindsets = {}  # Speicherung der Mindsets (werden nach Erreichen des Schwellenwerts aktiviert)
 
-    def update_imprint(self, imprint_name, value):
+    def update_imprints(self, imprint_name, value):
         """Erhöht den Zähler für ein Imprint und prüft, ob ein Mindset erreicht wurde."""
         # Imprint erhöhen
-        self.imprint[imprint_name] = self.imprint.get(imprint_name, 0) + value
+        self.imprints[imprint_name] = self.imprints.get(imprint_name, 0) + value
 
         # Berechne den Schwellenwert (immer 3 * Anzahl der bereits freigeschalteten Mindsets)
         threshold = 3 * (len(self.mindsets))  # 3, 6, 9 für den ersten, zweiten, dritten Mindset
 
         # Prüfe, ob der Zähler den Schwellenwert erreicht oder überschreitet, wird das Mindset aktiviert
-        if self.imprint[imprint_name] >= threshold and not self.mindsets.get(imprint_name, False):
+        if self.imprints[imprint_name] >= threshold and not self.mindsets.get(imprint_name, False):
             self.mindsets[imprint_name] = True  # Setze das Imprint als Mindset
             print(f"Mindset {imprint_name} erreicht!")
 
     def get_imprint_value(self, imprint_name):
         """Gibt den aktuellen Wert des Imprints zurück."""
-        return self.imprint.get(imprint_name, 0)
+        return self.imprints.get(imprint_name, 0)
 
     def is_mindset_active(self, imprint_name):
         """Prüft, ob ein Mindset aktiv ist."""

@@ -1,0 +1,11 @@
+basic:
+  id: intro04b
+  type: event
+  biome: Vermass
+  location: "Vesculor-Strang bei den Brutstätten"
+  title: "Sozialer Druck"
+  text: "intro04b.hbs"
+condition: null
+effect: null
+hook: null
+options:

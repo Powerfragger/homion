@@ -4,9 +4,68 @@ from engine.renderer import render_event
 from engine.state import GameState
 from main import resolve_next_event
 
+st.set_page_config(page_title="HOMION", layout="wide")
+
+# 🎬 Startbildschirm anzeigen, falls Spiel noch nicht initialisiert
+if "state" not in st.session_state:
+    st.markdown("""
+    <style>
+    html, body, .main, .block-container {
+        overflow: hidden !important;
+    }
+
+    .homion-title {
+        text-align: center;
+        font-size: 4rem;
+        color: #8c1f1f;
+        font-family: "Share Tech Mono", monospace;
+        font-weight: bold;
+        text-shadow: 1px 1px 0 #000, -1px -1px 0 #000;
+        margin-bottom: 0.2em;
+    }
+
+    .homion-subtitle {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #bb6666;
+        font-family: "Share Tech Mono", monospace;
+        margin-bottom: 2em;
+    }
+
+    .homion-button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+        margin-top: 2em;
+    }
+
+    .stButton>button {
+        width: 200px;
+        font-size: 1.1em;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+    </style>
+
+    <div class='homion-title'>HOMION</div>
+    <div class='homion-subtitle'>menschlich</div>
+    <div class='homion-button-container'>
+    """, unsafe_allow_html=True)
+
+    if st.button("▶️ Neues Spiel"):
+        st.session_state.state = GameState("intro00")
+        st.rerun()
+    st.button("🔒 Laden", disabled=True)
+
+    st.markdown("</div>", unsafe_allow_html=True)
+    st.stop()
+
+# 🎮 Spiel läuft: CSS für Buttons und Anzeige
 st.markdown("""
 <style>
-/* Basis-Styling für alle Buttons */
+/* Basis-Styling für Buttons */
 .stButton button {
   background-color: #222 !important;
   color: #EEE !important;
@@ -20,7 +79,7 @@ st.markdown("""
 
 /* Hover-Effekt */
 .stButton button:hover {
-  background-color: #800000 !important; /* Dunkelrot beim Hover */
+  background-color: #800000 !important;
   color: #fff !important;
   transform: scale(1.02);
   cursor: pointer;
@@ -28,34 +87,24 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
-st.set_page_config(page_title="HOMION", layout="wide")
-
-# Initialisierung der Session
-if "state" not in st.session_state:
-    st.session_state.state = GameState("intro00")
-
+# ⏳ Zustand und Event laden
 state = st.session_state.state
-
 event = load_event(state.current_event_id)
 state.register_visit(event["basic"]["id"])
 state.apply_effect(event.get("effect"))
 
-# Metainfos
+# 📋 Metadaten
 meta = event["basic"]
 title = meta.get("title", "")
 biome = meta.get("biome", "")
 location = meta.get("location", "")
-
-# Text vorbereiten
 full_text = render_event(event, state)
 
-# Layout
+# ➕ HTML-Markup für fett/kursiv (von dir)
+formatted_text = full_text.replace("**", "<b>").replace("__", "<b>").replace("*", "<i>").replace("_", "<i>").replace("</b><b>", "").replace("</i><i>", "")
+
+# 🧱 Layout
 col1, col2 = st.columns([4, 1])
-
-# Event-Text formatieren
-formatted_text = full_text.replace("**", "<b>").replace("_", "<i>").replace("**", "</b>").replace("_", "</i>")
-
 
 with col1:
     st.markdown("""
@@ -83,13 +132,6 @@ with col1:
             background: #666;
             border-radius: 3px;
         }
-        .option-button {
-            animation: slideUp 0.3s ease-out;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -112,14 +154,11 @@ with col1:
     for key, option in visible_options:
         label = option.get("label", f"[{key}]")
 
-        # Button anzeigen ohne Hervorhebung
         if st.button(label, key=f"opt_{key}"):
             if state.check_condition(option.get("condition")):
-                # Update des Imprints, wenn eine Entscheidung getroffen wird
                 for imprint, value in option.get("effect", {}).get("imprint", {}).items():
-                    state.update_imprint(imprint, value)
+                    state.update_imprints(imprint, value)
 
-                # Event fortsetzen
                 state.register_choice(event["basic"]["id"], key)
                 state.current_event_id = resolve_next_event(state, option)
                 st.rerun()
@@ -143,7 +182,7 @@ with col2:
             st.markdown(f"- {k}: {v}")
 
         st.markdown("**Imprints:**")
-        for k, v in state.imprint.items():
+        for k, v in state.imprints.items():
             st.markdown(f"- {k}: {v}")
 
         st.markdown("**Mindsets:**")
@@ -151,8 +190,7 @@ with col2:
             st.markdown(f"- {k}: {'Aktiv' if v else 'Inaktiv'}")
 
         st.markdown("**Aktueller Schwellwert:**")
-        threshold = 3 * (len(state.mindsets))
-        st.markdown(f"- {threshold}")
+        st.markdown(f"- {3 * len(state.mindsets)}")
 
         st.markdown("---")
         st.markdown("### ⏩ Direkter Sprung")
@@ -165,18 +203,17 @@ with col2:
         st.markdown("---")
         st.markdown("### 📜 Log (letzte 20 Einträge)")
 
-        visited = state.visited_events if isinstance(state.visited_events, list) else []
-        chosen = state.chosen_options if isinstance(state.chosen_options, list) else []
+        visited = list(state.visited_events)[-20:] if isinstance(state.visited_events, dict) else []
+        chosen = list(state.chosen_options)[-20:] if isinstance(state.chosen_options, dict) else []
 
-        visited_log = "<br>".join(list(state.visited_events)[-20:])
-        chosen_log = "<br>".join(list(state.chosen_options)[-20:])
+        visited_log = "<br>".join(visited) if visited else "–"
+        chosen_log = "<br>".join(chosen) if chosen else "–"
 
         st.markdown("**Visited Events:**")
         st.markdown(
             f"<div style='max-height: 120px; overflow-y: auto; background-color: #111; padding: 0.5em; border: 1px solid #444;'>{visited_log}</div>",
             unsafe_allow_html=True,
         )
-
         st.markdown("**Chosen Options:**")
         st.markdown(
             f"<div style='max-height: 120px; overflow-y: auto; background-color: #111; padding: 0.5em; border: 1px solid #444;'>{chosen_log}</div>",

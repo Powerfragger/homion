@@ -20,6 +20,8 @@ def render_event(event_data, state):
         "resource": state.resources,
         "visited": state.visited_events,
         "chosen": state.chosen_options,
+        "imprint": state.imprints,
+        "mindset": state.mindsets
     }
 
     return template(context)

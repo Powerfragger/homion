@@ -21,7 +21,7 @@ options:
         abweichler: +1
     next:
       type: event
-      target: intro04
+      target: intro04b
   folgen:
     label: "Ich folge dem Willen des Schwarms"
     effect:
