@@ -10,11 +10,13 @@ effect: null
 hook: null
 options:
   angst:
-    label: "Ich zögere unsicher"
+    label: "Ich zögere lange. Das gefällt mir gar nicht."
     condition:
-      flag:
+      mindset:
         ängstlich: true
     effect:
+      imprint:
+        vorsichtig: +1
       counter:
         abweichler: +1
     next:
@@ -22,9 +24,6 @@ options:
       target: intro04
   folgen:
     label: "Ich folge dem Willen des Schwarms"
-    condition:
-      flag:
-        ängstlich: false
     effect:
       counter:
         systemtreu: +1
@@ -32,7 +31,7 @@ options:
       type: event
       target: intro04
   beobachten:
-    label: "Ich beobachte zunächst einige ein- und aussteigende Myrriden. Dann steige ich ein"
+    label: "Ich sehe mich noch etwas um. Dann steige ich ein"
     next:
       type: event
       target: intro04

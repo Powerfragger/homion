@@ -56,8 +56,6 @@ col1, col2 = st.columns([4, 1])
 # Event-Text formatieren
 formatted_text = full_text.replace("**", "<b>").replace("_", "<i>").replace("**", "</b>").replace("_", "</i>")
 
-# Layout
-col1, col2 = st.columns([4, 1])
 
 with col1:
     st.markdown("""
@@ -129,36 +127,58 @@ with col1:
                 st.warning("Diese Option ist aktuell nicht verfügbar.")
 
 with col2:
-    with st.expander("Entwickler-Status", expanded=False):
+    with st.expander("🛠 Entwickler-Status", expanded=False):
+        st.markdown("### 🔍 Variablen")
+
         st.markdown("**Flags:**")
         for k, v in state.flags.items():
             st.markdown(f"- {k}: {v}")
 
-        st.markdown("**Counter:**")
-        for k, v in state.counters.items():
-            st.markdown(f"- {k}: {v}")
-
-        st.markdown("**Resource:**")
+        st.markdown("**Resources:**")
         for k, v in state.resources.items():
             st.markdown(f"- {k}: {v}")
 
+        st.markdown("**Counters:**")
+        for k, v in state.counters.items():
+            st.markdown(f"- {k}: {v}")
+
+        st.markdown("**Imprints:**")
+        for k, v in state.imprint.items():
+            st.markdown(f"- {k}: {v}")
+
+        st.markdown("**Mindsets:**")
+        for k, v in state.mindsets.items():
+            st.markdown(f"- {k}: {'Aktiv' if v else 'Inaktiv'}")
+
+        st.markdown("**Aktueller Schwellwert:**")
+        threshold = 3 * (len(state.mindsets))
+        st.markdown(f"- {threshold}")
+
         st.markdown("---")
-        st.markdown("**Event-Überspringung:**")
+        st.markdown("### ⏩ Direkter Sprung")
+
         manual = st.text_input("Event-ID manuell setzen:")
         if st.button("Springe zu Event"):
             state.current_event_id = manual
             st.rerun()
 
-        # **Neue Sektion für Imprints, Schwellenwerte und Mindsets**
-        st.markdown("**Imprints:**")
-        for k, v in state.imprint.items():
-            st.markdown(f"- {k}: {v}")
+        st.markdown("---")
+        st.markdown("### 📜 Log (letzte 20 Einträge)")
 
-        st.markdown("**Schwellenwert für Mindsets:**")
-        for mindset, imprint in state.imprint.items():
-            threshold = 3 * (len(state.mindsets) + 1)  # Berechne den Schwellenwert für das nächste Mindset
-            st.markdown(f"- {mindset}: {threshold} (aktuell: {imprint})")
+        visited = state.visited_events if isinstance(state.visited_events, list) else []
+        chosen = state.chosen_options if isinstance(state.chosen_options, list) else []
 
-        st.markdown("**Mindsets:**")
-        for mindset, active in state.mindsets.items():
-            st.markdown(f"- {mindset}: {'Aktiv' if active else 'Inaktiv'}")
+        visited_log = "<br>".join(list(state.visited_events)[-20:])
+        chosen_log = "<br>".join(list(state.chosen_options)[-20:])
+
+        st.markdown("**Visited Events:**")
+        st.markdown(
+            f"<div style='max-height: 120px; overflow-y: auto; background-color: #111; padding: 0.5em; border: 1px solid #444;'>{visited_log}</div>",
+            unsafe_allow_html=True,
+        )
+
+        st.markdown("**Chosen Options:**")
+        st.markdown(
+            f"<div style='max-height: 120px; overflow-y: auto; background-color: #111; padding: 0.5em; border: 1px solid #444;'>{chosen_log}</div>",
+            unsafe_allow_html=True,
+        )

@@ -12,7 +12,7 @@ options:
   aufregend:
     label: "wie aufregend!"
     condition:
-      flag:
+      mindset:
         ängstlich: false
     visible: true
     next:

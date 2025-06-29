@@ -12,7 +12,7 @@ options:
   ja:
     label: "Ja. Wir sind die Dominanten, wir entscheiden."
     effect:
-      flag:
+      imprint:
         rücksichtslos: true
     next:
       type: event

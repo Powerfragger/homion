@@ -20,7 +20,7 @@ options:
   trieb:
     label: "Ich spüre meine Triebe. Ich will besetzen."
     condition:
-      flag:
+      mindset:
         aggressiv: true
     next:
       type: event
