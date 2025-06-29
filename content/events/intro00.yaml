@@ -12,24 +12,24 @@ options:
   spielen:
     label: "Ich fange den Sporling und sende einen spielerischen Impuls"
     effect:
-      flag:
-        sozial: true
+      imprint:
+        sozial: +1
     next:
       type: event
       target: intro01a
   kämpfen:
     label: "Ich stürze mich auf ihn und will ihm wehtun"
     effect:
-      flag:
-        aggressiv: true
+      imprint:
+        aggressiv: +1
     next:
       type: event
       target: intro01b
   zurückziehen:
     label: "Ich ziehe mich ängstlich zurück"
     effect:
-      flag:
-        ängstlich: true
+      imprint:
+        ängstlich: +1
     next:
       type: event
       target: intro01c

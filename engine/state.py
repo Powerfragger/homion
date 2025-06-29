@@ -1,3 +1,6 @@
+import operator
+
+
 class GameState:
     def __init__(self, start_event):
         self.current_event_id = start_event
@@ -7,6 +10,31 @@ class GameState:
         self.resources = {}
         self.visited_events = {}
         self.chosen_options = {}
+
+        # Dynamische Speicherung von Imprints und Mindsets
+        self.imprint = {}  # Speicherung aller Imprints (Werte werden dynamisch zugewiesen)
+        self.mindsets = {}  # Speicherung der Mindsets (werden nach Erreichen des Schwellenwerts aktiviert)
+
+    def update_imprint(self, imprint_name, value):
+        """Erhöht den Zähler für ein Imprint und prüft, ob ein Mindset erreicht wurde."""
+        # Imprint erhöhen
+        self.imprint[imprint_name] = self.imprint.get(imprint_name, 0) + value
+
+        # Berechne den Schwellenwert (immer 3 * Anzahl der bereits freigeschalteten Mindsets)
+        threshold = 3 * (len(self.mindsets))  # 3, 6, 9 für den ersten, zweiten, dritten Mindset
+
+        # Prüfe, ob der Zähler den Schwellenwert erreicht oder überschreitet, wird das Mindset aktiviert
+        if self.imprint[imprint_name] >= threshold and not self.mindsets.get(imprint_name, False):
+            self.mindsets[imprint_name] = True  # Setze das Imprint als Mindset
+            print(f"Mindset {imprint_name} erreicht!")
+
+    def get_imprint_value(self, imprint_name):
+        """Gibt den aktuellen Wert des Imprints zurück."""
+        return self.imprint.get(imprint_name, 0)
+
+    def is_mindset_active(self, imprint_name):
+        """Prüft, ob ein Mindset aktiv ist."""
+        return self.mindsets.get(imprint_name, False)
 
     def apply_effect(self, effect):
         if not effect:
@@ -73,3 +101,73 @@ class GameState:
                     return False
 
         return True
+
+    def evaluate_hook_condition(self, hook_cond):
+        """Prüft komplexe Bedingungen in einem Hook (inkl. Operatoren wie '>= 3')."""
+        import operator
+        print("[HOOK-DEBUG] evaluate_hook_condition() wurde aufgerufen")
+
+        ops = {
+            "==": operator.eq,
+            "!=": operator.ne,
+            ">=": operator.ge,
+            "<=": operator.le,
+            ">": operator.gt,
+            "<": operator.lt,
+        }
+
+        for typ in ("flag", "worldflag", "counter", "resource"):
+            source = getattr(self, typ + "s")
+            for key, val in hook_cond.get(typ, {}).items():
+                current = source.get(key, 0 if typ in ("counter", "resource") else False)
+
+                if isinstance(val, str) and any(val.startswith(op) for op in ops):
+                    for op_symbol, op_func in ops.items():
+                        if val.startswith(op_symbol):
+                            try:
+                                target = int(val[len(op_symbol):].strip())
+                                print(f"[HOOK-EVAL] {typ}.{key}: {current} {op_symbol} {target}")
+                                if not op_func(current, target):
+                                    return False
+                            except ValueError:
+                                print(f"[HOOK-ERROR] Ungültiger Zahlenwert in Bedingung: '{val}' für Schlüssel '{key}'")
+                                return False
+                            break
+                    else:
+                        print(f"[HOOK-WARNUNG] Unbekannter Operator in Bedingung: '{val}' für Schlüssel '{key}'")
+                        return False
+
+                else:
+                    # Direkter Vergleich, z. B. val = true oder 5
+                    print(f"[HOOK-EVAL] {typ}.{key}: {current} == {val}")
+                    if current != val:
+                        return False
+
+        return True
+
+    def get_hook_override_event(self, all_events):
+        """Sucht nach erstem gültigem Hook-Event."""
+        for event in all_events:
+            print(f"[HOOK-SCAN] Prüfe Event: {event['basic']['id']}")
+
+            hook = event.get("hook")
+            if not hook:
+                print("→ Kein Hook vorhanden.")
+                continue
+
+            if "condition" not in hook:
+                print("→ Hook hat keine 'condition'.")
+                continue
+
+            if hook.get("once", False) and event["basic"]["id"] in self.visited_events:
+                print("→ Hook bereits ausgelöst und 'once' aktiv.")
+                continue
+
+            print("→ Hook vorhanden, führe evaluate_hook_condition aus.")
+            if self.evaluate_hook_condition(hook["condition"]):
+                print("→ Bedingung erfüllt! Springe zu:", event["basic"]["id"])
+                return event["basic"]["id"]
+            else:
+                print("→ Bedingung NICHT erfüllt.")
+
+        return None

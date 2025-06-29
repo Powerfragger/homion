@@ -1,0 +1,19 @@
+basic:
+  id: intro04a
+  type: event
+  biome: Vermass
+  location: "Substratentsorgung"
+  title: "So viele Körper"
+  text: ".hbs"
+condition: null
+effect: null
+hook: null
+options:
+  ja:
+    label: "Ja. Wir sind die Dominanten, wir entscheiden."
+    effect:
+      flag:
+        rücksichtslos: true
+    next:
+      type: event
+      target:

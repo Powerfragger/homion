@@ -1,7 +1,7 @@
 basic:
   id: intro03
   type: event
-  biome: vermass
+  biome: Vermass
   location: "Vesculor-Strang bei den Brutstätten"
   title: "Steig ein."
   text: "intro03.hbs"

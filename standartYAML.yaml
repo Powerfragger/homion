@@ -1,0 +1,11 @@
+basic:
+  id:
+  type:
+  biome:
+  location: ""
+  title: ""
+  text: ".hbs"
+condition: null
+effect: null
+hook: null
+options:

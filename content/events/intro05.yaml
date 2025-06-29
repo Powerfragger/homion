@@ -1,0 +1,35 @@
+basic:
+  id: intro04
+  type: event
+  biome: Vermass
+  location: "Zuchtanlage"
+  title: "Der erste Befehl"
+  text: "intro05.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  befolgen:
+    label: "Ich befolge den Willen des Schwarms"
+    effects:
+      counter:
+        systemtreu: +1
+    next:
+      type: event
+      target: intro06
+  trieb:
+    label: "Ich spüre meine Triebe. Ich will besetzen."
+    condition:
+      flag:
+        aggressiv: true
+    next:
+      type: event
+      target: intro06
+  hinterfragen:
+    label: "Ich hinterfrage den Befehl: 'Darf ich nicht wählen?'"
+    effect:
+      counter:
+        abweichler: +1
+    next:
+      type: event
+      target: intro05a

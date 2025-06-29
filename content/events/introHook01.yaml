@@ -1,0 +1,34 @@
+basic:
+  id: introHook01
+  type: event
+  biome: Vermass
+  location: "Die Grube"
+  title: "Hungerstrafe"
+  text: "introHook01.hbs"
+condition: null
+effect: null
+hook:
+  condition:
+    counter:
+      abweichler: ">= 3"
+  once: true
+options:
+  fügen:
+    label: "Ich füge mich dem Schwarm"
+    next:
+      if:
+        condition:
+          visited: ["intro01"]
+        destination:
+          type: event
+          target: intro01
+      elif:
+        condition:
+          visited: ["intro01"]
+        destination:
+          type: event
+          target: intro00
+      else:
+        destination:
+          type: event
+          target: intro00

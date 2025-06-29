@@ -1,0 +1,33 @@
+basic:
+  id: intro04
+  type: event
+  biome: Vermass
+  location: "Vesculor-Strang bei den Brutstätten"
+  title: "Kontraktion"
+  text: "intro04.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  aufregend:
+    label: "wie aufregend!"
+    condition:
+      flag:
+        ängstlich: false
+    visible: true
+    next:
+      type: event
+      target: intro05
+  neutral:
+    label: "naja, man kommt voran"
+    next:
+      type: event
+      target: intro05
+  stop:
+    label: "Wie furchtbar. Ich versuche auszusteigen"
+    effect:
+      counter:
+        abweichler: +1
+    next:
+      type: event
+      target: intro4a
