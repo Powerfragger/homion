@@ -55,9 +55,11 @@ class GameState:
                 self.resources[key] = self._apply_arithmetic(self.resources.get(key, 0), value)
 
     def _apply_arithmetic(self, old_value, new_value):
-        if isinstance(new_value, str) and new_value.startswith(("+", "-")):
-            return old_value + int(new_value)
-        return int(new_value)
+      if isinstance(new_value, str) and new_value.startswith(("+", "-")):
+        return old_value + int(new_value)
+      if isinstance(new_value, int):
+        return old_value + new_value  # <- NEU: numerische Werte werden als delta interpretiert
+      return int(new_value)  # fallback (z. B. „5“ als string)
 
     def register_visit(self, event_id):
         self.visited_events[event_id] = True
@@ -75,9 +77,19 @@ class GameState:
                 if self.flags.get(k) != v:
                     return False
 
+        if "notflag" in condition:
+            for k, v in condition["notflag"].items():
+                if self.flags.get(k) == v:
+                    return False
+
         if "worldflag" in condition:
             for k, v in condition["worldflag"].items():
                 if self.worldflags.get(k) != v:
+                    return False
+
+        if "notworldflag" in condition:
+            for k, v in condition["notworldflag"].items():
+                if self.worldflags.get(k) == v:
                     return False
 
         if "counter" in condition:
@@ -95,14 +107,30 @@ class GameState:
                 if eid not in self.visited_events:
                     return False
 
+        if "notvisited" in condition:
+            for eid in condition["notvisited"]:
+                if eid in self.visited_events:
+                    return False
+
         if "chosen" in condition:
             for cid in condition["chosen"]:
                 if cid not in self.chosen_options:
                     return False
+
+        if "notchosen" in condition:
+            for cid in condition["notchosen"]:
+                if cid in self.chosen_options:
+                    return False
+
         if "mindset" in condition:
-          for k, v in condition["mindset"].items():
-            if self.mindsets.get(k, False) != v:
-              return False
+            for k, v in condition["mindset"].items():
+                if self.mindsets.get(k, False) != v:
+                    return False
+
+        if "notmindset" in condition:
+            for k, v in condition["notmindset"].items():
+                if self.mindsets.get(k, False) == v:
+                    return False
 
         return True
 
@@ -152,15 +180,15 @@ class GameState:
     def get_hook_override_event(self, all_events):
         """Sucht nach erstem gültigem Hook-Event."""
         for event in all_events:
-            print(f"[HOOK-SCAN] Prüfe Event: {event['basic']['id']}")
+
 
             hook = event.get("hook")
             if not hook:
-                print("→ Kein Hook vorhanden.")
+
                 continue
 
             if "condition" not in hook:
-                print("→ Hook hat keine 'condition'.")
+
                 continue
 
             if hook.get("once", False) and event["basic"]["id"] in self.visited_events:

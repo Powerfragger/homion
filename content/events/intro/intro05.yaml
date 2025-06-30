@@ -13,7 +13,7 @@ options:
     label: "Ich befolge den Willen des Schwarms"
     effects:
       counter:
-        systemtreu: +1
+        abweichler: -1
     next:
       type: event
       target: intro06
@@ -29,7 +29,7 @@ options:
     label: "Ich hinterfrage den Befehl: 'Darf ich nicht wählen?'"
     effect:
       counter:
-        abweichler: +1
+        abweichler: 1
     next:
       type: event
       target: intro05a

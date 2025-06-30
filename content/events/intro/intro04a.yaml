@@ -13,10 +13,10 @@ options:
     label: "Ja. Wir sind die Dominanten, wir entscheiden."
     effect:
       imprint:
-        rücksichtslos: true
+        gnadenlos: true
     next:
       type: event
-      target: intro03a.hbs
+      target: intro04b
   egal:
     label: "Die Dinge sind, wie sie sind.."
     effect:
@@ -24,14 +24,14 @@ options:
         gleichgültig: +1
     next:
       type: event
-      target: intro03a.hbs
+      target: intro04b
   nein:
     label: "Nein. Mit unserer Macht über diese Lebensformen haben wir auch Verantwortung"
     effect:
       imprint:
-        verantwortungsvoll: +1
+        verantwortungsvoll: 1
       counter:
-        abweichler: +1
+        abweichler: 1
     next:
       type: event
       target: intro4b

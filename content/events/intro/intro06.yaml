@@ -1,0 +1,18 @@
+basic:
+  id: intro06
+  type: event
+  biome: Vermass
+  location: "Drelm-Zucht"
+  title: "Erste Besetzung"
+  text: "intro06.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  erbärmlich:
+    label: "Ich genieße meine Dominanz und erdrücke den erbärmlichen Geist des Drelm"
+    effect:
+      imprint:
+        gnadenlos: 1
+      counter:
+        abweichler: -1

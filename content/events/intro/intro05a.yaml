@@ -1,0 +1,34 @@
+basic:
+  id: intro05a
+  type: event
+  biome: Vermass
+  location: "Drelm-Zucht"
+  title: "nein, darfst du nicht"
+  text: "intro05a.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  wiederholen:
+    label: "Ich beharre auf meinen Willen!"
+    effect:
+      counter:
+        abweichler: 2
+      imprint:
+        stur: 1
+    next:
+      type: event
+      target: intro06
+  fügen:
+    label: "Ich füge mich und besetze einen Drelm"
+    next:
+      type: event
+      target: intro06
+  aufgeben:
+    label: "Du kannst das alles nicht mehr. Unterwürfigkeit oder Verbannung ist keine Wahl."
+    effect:
+      counter:
+        abweichler: 2
+    next:
+      type: event
+      target: intro05b

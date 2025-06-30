@@ -2,16 +2,12 @@ basic:
   id: introHook2
   type: event
   biome: Vermass
-  location: "Die Grube"
+  location: "Die kahle Kammer"
   title: "Hungerstrafe"
   text: "introHook2.hbs"
 condition: null
 effect: null
-hook:
-  condition:
-    counter:
-      abweichler: ">= 3"
-  once: true
+hook: null
 options:
   fügen:
     label: "Ich füge mich dem Schwarm"

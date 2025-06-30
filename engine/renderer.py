@@ -1,7 +1,6 @@
 import os
 from pybars import Compiler
 
-
 def render_event(event_data, state):
   hbs_file = event_data["basic"]["text"]
 
@@ -17,6 +16,11 @@ def render_event(event_data, state):
     source = f.read()
 
   compiler = Compiler()
+
+  # ✅ "not"-Helper für logische Negation
+  def hbs_not(this, options, context):
+    return options["fn"](this) if not context else options["inverse"](this)
+
   template = compiler.compile(source)
 
   context = {
@@ -31,4 +35,4 @@ def render_event(event_data, state):
     "mindset": state.mindsets
   }
 
-  return template(context)
+  return template(context, helpers={"not": hbs_not})

@@ -13,7 +13,7 @@ options:
     label: "Ich folge dem Willen des Schwarms"
     effect:
       counter:
-        systemtreu: +1
+        abweichler: -1
     next:
       type: event
       target: intro03
@@ -26,7 +26,7 @@ options:
     label: "Warum sollte ich da lang?"
     effect:
       counter:
-        abweichler: +1
+        abweichler: 1
     next:
       type: event
       target: intro03

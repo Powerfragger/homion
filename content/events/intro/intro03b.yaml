@@ -1,0 +1,16 @@
+basic:
+  id: intro03b
+  type: event
+  biome: Vermass
+  location: "Vesculor-Strang bei den Brutstätten"
+  title: "Kein Mitleid"
+  text: "intro03b.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  weiter:
+    label: "Weiter..."
+    next:
+      type: event
+      target: intro04

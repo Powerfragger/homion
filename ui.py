@@ -100,13 +100,60 @@ biome = meta.get("biome", "")
 location = meta.get("location", "")
 full_text = render_event(event, state)
 
-# ➕ HTML-Markup für fett/kursiv (von dir)
+# ➕ HTML-Markup für fett/kursiv
 formatted_text = full_text.replace("**", "<b>").replace("__", "<b>").replace("*", "<i>").replace("_", "<i>").replace("</b><b>", "").replace("</i><i>", "")
 
 # 🧱 Layout
 col1, col2 = st.columns([4, 1])
 
 with col1:
+    # 🔴 Abweichler-Bar einfügen
+    abweichler = state.counters.get("abweichler", 0)
+    st.markdown("""
+    <style>
+    .abweichler-bar {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 8px;
+    }
+    .abweichler-segment {
+        flex: 1;
+        height: 12px;
+        border-radius: 3px;
+        border: 1px solid #222;
+    }
+    .inactive-red {
+        background-color: #330000;
+        border-color: #550000;
+    }
+    .active-red {
+        background-color: #cc2222;
+    }
+    .inactive-bluegreen {
+        background-color: #002d2d;
+        border-color: #005050;
+    }
+    .active-bluegreen {
+        background-color: #00cccc;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    segments = []
+    for i in range(1, 9):
+        if i <= 3:
+            if abweichler <= -1 * (4 - i):
+                segments.append("<div class='abweichler-segment active-red'></div>")
+            else:
+                segments.append("<div class='abweichler-segment inactive-red'></div>")
+        else:
+            if abweichler >= i - 3:
+                segments.append("<div class='abweichler-segment active-bluegreen'></div>")
+            else:
+                segments.append("<div class='abweichler-segment inactive-bluegreen'></div>")
+    st.markdown(f"<div class='abweichler-bar'>{''.join(segments)}</div>", unsafe_allow_html=True)
+
+    # Text- und Metadatenanzeige
     st.markdown("""
         <style>
         .meta-info {
@@ -164,6 +211,7 @@ with col1:
                 st.rerun()
             else:
                 st.warning("Diese Option ist aktuell nicht verfügbar.")
+
 st.markdown("""
 <style>
 span[title] {

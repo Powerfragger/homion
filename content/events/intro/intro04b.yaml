@@ -1,0 +1,32 @@
+basic:
+  id: intro04b
+  type: event
+  biome:
+  location: "Zuchtstätten"
+  title: "Geh weiter"
+  text: "intro04b.hbs"
+condition: null
+effect: null
+hook: null
+options:
+  folgen:
+    label: "Ich folge dem Willen des Schwarms"
+    effect:
+      counter:
+        abweichler: -1
+    next:
+      type: event
+      target: intro05
+  neugierig:
+    label: "Ich gehe neugierig zu den Drelm"
+    next:
+      type: event
+      target: intro05
+  weigern:
+    label: "Ich weigere mich, dieses System von Zucht und Tot zu unterstützen"
+    effect:
+      counter:
+        abweichler: 3
+    next:
+      type: event
+      target: intro04c

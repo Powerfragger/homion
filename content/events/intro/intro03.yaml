@@ -16,9 +16,9 @@ options:
         ängstlich: true
     effect:
       imprint:
-        vorsichtig: +1
+        vorsichtig: 1
       counter:
-        abweichler: +1
+        abweichler: 1
     next:
       type: event
       target: intro03a
@@ -26,7 +26,7 @@ options:
     label: "Ich folge dem Willen des Schwarms"
     effect:
       counter:
-        systemtreu: +1
+        abweichler: -1
     next:
       type: event
       target: intro04

@@ -13,7 +13,7 @@ options:
     label: "Ich begreife meine Situation und spare meine Kräfte"
     effect:
       imprint:
-        geduldig: +1
+        geduldig: 1
     next:
       type: event
       target: introHook2
@@ -24,7 +24,7 @@ options:
         aggressiv: true
     effect:
       counter:
-        abweichler: +1
+        abweichler: 1
     next:
       type: event
       target: introHook3
